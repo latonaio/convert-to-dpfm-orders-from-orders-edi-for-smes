@@ -12,7 +12,7 @@ import (
 func (p *ProcessingFormatter) ConversionProcessingKey(sdc *dpfm_api_input_reader.SDC, labelConvertFrom, labelConvertTo string, codeConvertFrom any) *ConversionProcessingKey {
 	pm := &requests.ConversionProcessingKey{
 		SystemConvertTo:   "DPFM",
-		SystemConvertFrom: "SAP",
+		SystemConvertFrom: "EDIForSMEs",
 		BusinessPartner:   *sdc.BusinessPartnerID,
 	}
 

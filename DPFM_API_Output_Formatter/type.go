@@ -1,29 +1,30 @@
 package dpfm_api_output_formatter
 
 type Output struct {
-	ConnectionKey       string      `json:"connection_key"`
-	Result              bool        `json:"result"`
-	RedisKey            string      `json:"redis_key"`
-	Filepath            string      `json:"filepath"`
-	APIStatusCode       int         `json:"api_status_code"`
-	RuntimeSessionID    string      `json:"runtime_session_id"`
-	BusinessPartnerID   *int        `json:"business_partner"`
-	ServiceLabel        string      `json:"service_label"`
-	Message             interface{} `json:"message"`
-	APISchema           string      `json:"api_schema"`
-	Accepter            []string    `json:"accepter"`
-	Deleted             bool        `json:"deleted"`
-	APIProcessingResult *bool       `json:"api_processing_result"`
-	APIProcessingError  string      `json:"api_processing_error"`
+	ConnectionKey       string            `json:"connection_key"`
+	Result              bool              `json:"result"`
+	RedisKey            string            `json:"redis_key"`
+	Filepath            string            `json:"filepath"`
+	APIStatusCode       int               `json:"api_status_code"`
+	RuntimeSessionID    string            `json:"runtime_session_id"`
+	BusinessPartnerID   *int              `json:"business_partner"`
+	ServiceLabel        string            `json:"service_label"`
+	APIType             string            `json:"api_type"`
+	DataConcatenation   DataConcatenation `json:"DataConcatenation"`
+	APISchema           string            `json:"api_schema"`
+	Accepter            []string          `json:"accepter"`
+	Deleted             bool              `json:"deleted"`
+	APIProcessingResult *bool             `json:"api_processing_result"`
+	APIProcessingError  string            `json:"api_processing_error"`
 }
 
-type Message struct {
-	Header             *Header               `json:"Header"`
-	Item               []*Item               `json:"Item"`
-	ItemPricingElement []*ItemPricingElement `json:"ItemPricingElement"`
-	ItemScheduleLine   []*ItemScheduleLine   `json:"ItemScheduleLine"`
-	Address            []*Address            `json:"Address"`
-	Partner            []*Partner            `json:"Partner"`
+type DataConcatenation struct {
+	Header             *Header               `json:"OrdersHeader"`
+	Item               []*Item               `json:"OrdersItem"`
+	ItemPricingElement []*ItemPricingElement `json:"OrdersItemPricingElement"`
+	ItemScheduleLine   []*ItemScheduleLine   `json:"OrdersItemScheduleLine"`
+	Partner            []*Partner            `json:"OrdersPartner"`
+	Address            []*Address            `json:"OrdersAddress"`
 }
 
 type Header struct {
@@ -58,6 +59,7 @@ type Header struct {
 	PricingDate                      *string  `json:"PricingDate"`
 	PriceDetnExchangeRate            *float32 `json:"PriceDetnExchangeRate"`
 	RequestedDeliveryDate            *string  `json:"RequestedDeliveryDate"`
+	RequestedDeliveryTime            *string  `json:"RequestedDeliveryTime"`
 	HeaderCompleteDeliveryIsDefined  *bool    `json:"HeaderCompleteDeliveryIsDefined"`
 	Incoterms                        *string  `json:"Incoterms"`
 	PaymentTerms                     *string  `json:"PaymentTerms"`
@@ -95,10 +97,13 @@ type Item struct {
 	PricingDate                                   *string  `json:"PricingDate"`
 	PriceDetnExchangeRate                         *float32 `json:"PriceDetnExchangeRate"`
 	RequestedDeliveryDate                         *string  `json:"RequestedDeliveryDate"`
+	RequestedDeliveryTime                         *string  `json:"RequestedDeliveryTime"`
 	DeliverToParty                                *int     `json:"DeliverToParty"`
 	DeliverFromParty                              *int     `json:"DeliverFromParty"`
 	CreationDate                                  *string  `json:"CreationDate"`
+	CreationTime                                  *string  `json:"CreationTime"`
 	LastChangeDate                                *string  `json:"LastChangeDate"`
+	LastChangeTime                                *string  `json:"LastChangeTime"`
 	DeliverToPlant                                *string  `json:"DeliverToPlant"`
 	DeliverToPlantTimeZone                        *string  `json:"DeliverToPlantTimeZone"`
 	DeliverToPlantStorageLocation                 *string  `json:"DeliverToPlantStorageLocation"`
@@ -125,7 +130,6 @@ type Item struct {
 	StockConfirmationPlantTimeZone                *string  `json:"StockConfirmationPlantTimeZone"`
 	ProductIsBatchManagedInStockConfirmationPlant *bool    `json:"ProductIsBatchManagedInStockConfirmationPlant"`
 	BatchMgmtPolicyInStockConfirmationPlant       *string  `json:"BatchMgmtPolicyInStockConfirmationPlant"`
-	BatchMgmtPolicyStockConfirmationInPlant       *string  `json:"BatchMgmtPolicyStockConfirmationInPlant"`
 	StockConfirmationPlantBatch                   *string  `json:"StockConfirmationPlantBatch"`
 	StockConfirmationPlantBatchValidityStartDate  *string  `json:"StockConfirmationPlantBatchValidityStartDate"`
 	StockConfirmationPlantBatchValidityStartTime  *string  `json:"StockConfirmationPlantBatchValidityStartTime"`
@@ -226,33 +230,20 @@ type ItemScheduleLine struct {
 	StockConfirmationPlantBatchValidityStartDate    *string  `json:"StockConfirmationPlantBatchValidityStartDate"`
 	StockConfirmationPlantBatchValidityEndDate      *string  `json:"StockConfirmationPlantBatchValidityEndDate"`
 	RequestedDeliveryDate                           *string  `json:"RequestedDeliveryDate"`
+	RequestedDeliveryTime                           *string  `json:"RequestedDeliveryTime"`
 	ConfirmedDeliveryDate                           *string  `json:"ConfirmedDeliveryDate"`
 	ScheduleLineOrderQuantity                       *float32 `json:"ScheduleLineOrderQuantity"`
 	OriginalOrderQuantityInBaseUnit                 *float32 `json:"OriginalOrderQuantityInBaseUnit"`
 	ConfirmedOrderQuantityByPDTAvailCheckInBaseUnit *float32 `json:"ConfirmedOrderQuantityByPDTAvailCheckInBaseUnit"`
 	ConfirmedOrderQuantityByPDTAvailCheck           *float32 `json:"ConfirmedOrderQuantityByPDTAvailCheck"`
 	DeliveredQuantityInBaseUnit                     *float32 `json:"DeliveredQuantityInBaseUnit"`
-	UnDeliveredQuantityInBaseUnit                   *float32 `json:"UnDeliveredQuantityInBaseUnit"`
+	UndeliveredQuantityInBaseUnit                   *float32 `json:"UndeliveredQuantityInBaseUnit"`
 	OpenConfirmedQuantityInBaseUnit                 *float32 `json:"OpenConfirmedQuantityInBaseUnit"`
 	StockIsFullyConfirmed                           *bool    `json:"StockIsFullyConfirmed"`
 	PlusMinusFlag                                   *string  `json:"PlusMinusFlag"`
 	ItemScheduleLineDeliveryBlockStatus             *bool    `json:"ItemScheduleLineDeliveryBlockStatus"`
 	IsCancelled                                     *bool    `json:"IsCancelled"`
 	IsMarkedForDeletion                             *bool    `json:"IsMarkedForDeletion"`
-}
-
-type Address struct {
-	OrderID     int     `json:"OrderID"`
-	AddressID   int     `json:"AddressID"`
-	PostalCode  *string `json:"PostalCode"`
-	LocalRegion *string `json:"LocalRegion"`
-	Country     *string `json:"Country"`
-	District    *string `json:"District"`
-	StreetName  *string `json:"StreetName"`
-	CityName    *string `json:"CityName"`
-	Building    *string `json:"Building"`
-	Floor       *int    `json:"Floor"`
-	Room        *int    `json:"Room"`
 }
 
 type Partner struct {
@@ -267,4 +258,18 @@ type Partner struct {
 	Currency                *string `json:"Currency"`
 	ExternalDocumentID      *string `json:"ExternalDocumentID"`
 	AddressID               *int    `json:"AddressID"`
+}
+
+type Address struct {
+	OrderID     int     `json:"OrderID"`
+	AddressID   int     `json:"AddressID"`
+	PostalCode  *string `json:"PostalCode"`
+	LocalRegion *string `json:"LocalRegion"`
+	Country     *string `json:"Country"`
+	District    *string `json:"District"`
+	StreetName  *string `json:"StreetName"`
+	CityName    *string `json:"CityName"`
+	Building    *string `json:"Building"`
+	Floor       *int    `json:"Floor"`
+	Room        *int    `json:"Room"`
 }

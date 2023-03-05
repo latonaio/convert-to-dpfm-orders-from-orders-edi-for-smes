@@ -27,7 +27,7 @@ func main() {
 	}
 	defer db.Close()
 
-	rmq, err := rabbitmq.NewRabbitmqClient(c.RMQ.URL(), c.RMQ.QueueFrom(), c.RMQ.SessionControlQueue(), c.RMQ.QueueTo(), 0)
+	rmq, err := rabbitmq.NewRabbitmqClient(c.RMQ.URL(), c.RMQ.QueueFrom(), "", c.RMQ.QueueTo(), 0)
 	if err != nil {
 		l.Fatal(err.Error())
 	}
@@ -39,7 +39,7 @@ func main() {
 
 	for msg := range iter {
 		start := time.Now()
-		sdc, err := callProcess(ctx, db, msg, c)
+		sdc, err := callProcess(ctx, db, rmq, msg, c)
 		if err != nil {
 			msg.Fail()
 			l.Error(err)
@@ -56,7 +56,7 @@ func getSessionID(data map[string]interface{}) string {
 	return id
 }
 
-func callProcess(ctx context.Context, db *database.Mysql, msg rabbitmq.RabbitmqMessage, c *config.Conf) (dpfm_api_output_formatter.Output, error) {
+func callProcess(ctx context.Context, db *database.Mysql, rmq *rabbitmq.RabbitmqClient, msg rabbitmq.RabbitmqMessage, c *config.Conf) (dpfm_api_output_formatter.Output, error) {
 	var err error
 	l := logger.NewLogger()
 	defer func() {
@@ -75,13 +75,21 @@ func callProcess(ctx context.Context, db *database.Mysql, msg rabbitmq.RabbitmqM
 
 	err = processingFormatter.ProcessingFormatter(&sdc, &psdc)
 	if err != nil {
+		osdc.APIProcessingResult = getBoolPtr(false)
+		osdc.APIProcessingError = err.Error()
+		rmq.Send(c.RMQ.QueueToErrResponse(), osdc)
 		return osdc, err
 	}
 
 	err = dpfm_api_output_formatter.OutputFormatter(&sdc, &psdc, &osdc)
 	if err != nil {
+		osdc.APIProcessingResult = getBoolPtr(false)
+		osdc.APIProcessingError = err.Error()
+		rmq.Send(c.RMQ.QueueToErrResponse(), osdc)
 		return osdc, err
 	}
+
+	rmq.Send(c.RMQ.QueueTo()[0], osdc)
 
 	return osdc, nil
 }

@@ -3,7 +3,6 @@ package config
 import (
 	"fmt"
 	"os"
-	"strings"
 )
 
 func newRMQ() *RMQ {
@@ -17,7 +16,8 @@ func newRMQ() *RMQ {
 		queueTo: []string{
 			os.Getenv("RMQ_QUEUE_TO"),
 		},
-		sessionControlQueue: os.Getenv("RMQ_SESSION_CONTROL_QUEUE"),
+
+		queueToErrResponse: os.Getenv("NESTJS_DATA_CONNECTION_REQUEST_CONTROL_MANAGER_CONSUME"),
 	}
 }
 
@@ -31,7 +31,7 @@ type RMQ struct {
 	queueFrom string
 	queueTo   []string
 
-	sessionControlQueue string
+	queueToErrResponse string
 }
 
 func (c *RMQ) URL() string {
@@ -44,15 +44,7 @@ func (c *RMQ) QueueFrom() string {
 func (c *RMQ) QueueTo() []string {
 	return c.queueTo
 }
-func (c *RMQ) SessionControlQueue() string {
-	return c.sessionControlQueue
-}
 
-func getEnvStrings(key string) []string {
-	rawVal := os.Getenv(key)
-	rawVal = strings.ReplaceAll(rawVal, "\\ ", "$THIS_SECTION_IS_SPACE")
-	rawVal = strings.ReplaceAll(rawVal, " ", "")
-	rawVal = strings.ReplaceAll(rawVal, "$THIS_SECTION_IS_SPACE", " ")
-	val := strings.Split(rawVal, ",")
-	return val
+func (c *RMQ) QueueToErrResponse() string {
+	return c.queueToErrResponse
 }

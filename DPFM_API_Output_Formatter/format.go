@@ -17,7 +17,7 @@ func OutputFormatter(
 	address := ConvertToAddress(*sdc, *psdc)
 	partner := ConvertToPartner(*sdc, *psdc)
 
-	osdc.Message = Message{
+	osdc.DataConcatenation = DataConcatenation{
 		Header:             header,
 		Item:               item,
 		ItemPricingElement: itemPricingElement,
@@ -25,6 +25,10 @@ func OutputFormatter(
 		Address:            address,
 		Partner:            partner,
 	}
+
+	osdc.ServiceLabel = "FUNCTION_ORDERS_DATA_CONCATENATION"
+	osdc.APISchema = "DPFMDataConcatenation"
+	osdc.APIProcessingResult = getBoolPtr(true)
 
 	return nil
 }
@@ -42,10 +46,10 @@ func ConvertToHeader(
 		OrderType:                 dataConversionProcessingHeader.ConvertedOrderType,
 		Buyer:                     dataConversionProcessingHeader.ConvertedBuyer,
 		Seller:                    dataConversionProcessingHeader.ConvertedSeller,
-		BillToParty:               dataConversionProcessingHeader.ConvertedBuyer,
-		BillFromParty:             dataConversionProcessingHeader.ConvertedSeller,
-		Payer:                     dataConversionProcessingHeader.ConvertedBuyer,
-		Payee:                     dataConversionProcessingHeader.ConvertedSeller,
+		BillToParty:               dataConversionProcessingHeader.ConvertedBillToParty,
+		BillFromParty:             dataConversionProcessingHeader.ConvertedBillFromParty,
+		Payer:                     dataConversionProcessingHeader.ConvertedPayer,
+		Payee:                     dataConversionProcessingHeader.ConvertedPayee,
 		CreationDate:              dataProcessingHeader.CreationDate,
 		LastChangeDate:            dataProcessingHeader.LastChangeDate,
 		TotalNetAmount:            dataProcessingHeader.TotalNetAmount,
@@ -53,6 +57,7 @@ func ConvertToHeader(
 		TotalGrossAmount:          dataProcessingHeader.TotalGrossAmount,
 		TransactionCurrency:       dataProcessingHeader.TransactionCurrency,
 		RequestedDeliveryDate:     dataProcessingHeader.RequestedDeliveryDate,
+		RequestedDeliveryTime:     dataProcessingHeader.RequestedDeliveryTime,
 		PaymentMethod:             dataConversionProcessingHeader.ConvertedPaymentMethod,
 		HeaderText:                dataProcessingHeader.HeaderText,
 		HeaderBlockStatus:         dataProcessingHeader.HeaderBlockStatus,
@@ -75,14 +80,15 @@ func ConvertToItem(
 
 	items := make([]*Item, 0)
 	for i := range dataProcessingItem {
-		item := &Item{
+		items = append(items, &Item{
 			OrderID:                          *dataConversionProcessingHeader.ConvertedOrderID,
 			OrderItem:                        *dataConversionProcessingItem[i].ConvertedOrderItem,
 			OrderItemText:                    dataProcessingItem[i].OrderItemText,
-			Product:                          dataProcessingItem[i].Product,
+			Product:                          dataConversionProcessingItem[i].ConvertedProduct,
 			ProductGroup:                     dataConversionProcessingItem[i].ConvertedProductGroup,
 			BaseUnit:                         dataProcessingItem[i].BaseUnit,
 			RequestedDeliveryDate:            dataProcessingItem[i].RequestedDeliveryDate,
+			RequestedDeliveryTime:            dataProcessingItem[i].RequestedDeliveryTime,
 			DeliverToParty:                   dataConversionProcessingItem[i].ConvertedDeliverToParty,
 			DeliverFromParty:                 dataConversionProcessingItem[i].ConvertedDeliverFromParty,
 			CreationDate:                     dataProcessingItem[i].CreationDate,
@@ -90,7 +96,7 @@ func ConvertToItem(
 			DeliverFromPlant:                 dataProcessingItem[i].DeliverFromPlant,
 			DeliverFromPlantBatch:            dataProcessingItem[i].DeliverFromPlantBatch,
 			DeliveryUnit:                     dataProcessingItem[i].DeliveryUnit,
-			StockConfirmationBusinessPartner: dataConversionProcessingItem[i].ConvertedDeliverFromParty,
+			StockConfirmationBusinessPartner: dataConversionProcessingItem[i].ConvertedStockConfirmationBusinessPartner,
 			StockConfirmationPlant:           dataProcessingItem[i].StockConfirmationPlant,
 			StockConfirmationPlantBatch:      dataProcessingItem[i].StockConfirmationPlantBatch,
 			OrderQuantityInBaseUnit:          dataProcessingItem[i].OrderQuantityInBaseUnit,
@@ -105,9 +111,7 @@ func ConvertToItem(
 			ItemBillingBlockStatus:           dataProcessingItem[i].ItemBillingBlockStatus,
 			IsCancelled:                      dataProcessingItem[i].IsCancelled,
 			IsMarkedForDeletion:              dataProcessingItem[i].IsMarkedForDeletion,
-		}
-
-		items = append(items, item)
+		})
 	}
 
 	return items
@@ -172,13 +176,14 @@ func ConvertToItemScheduleLine(
 		itemScheduleLines = append(itemScheduleLines, &ItemScheduleLine{
 			OrderID:                           *dataConversionProcessingHeader.ConvertedOrderID,
 			OrderItem:                         *dataConversionProcessingItemMap[v.ConvertingOrderItem].ConvertedOrderItem,
-			Product:                           dataProcessingItemScheduleLine[i].Product,
-			StockConfirmationBussinessPartner: dataProcessingItemScheduleLine[i].StockConfirmationBussinessPartner,
+			Product:                           dataConversionProcessingItemMap[v.ConvertingOrderItem].ConvertedProduct,
+			StockConfirmationBussinessPartner: dataConversionProcessingItemMap[v.ConvertingOrderItem].ConvertedStockConfirmationBusinessPartner,
 			StockConfirmationPlantBatch:       dataProcessingItemScheduleLine[i].StockConfirmationPlantBatch,
 			RequestedDeliveryDate:             dataProcessingItemScheduleLine[i].RequestedDeliveryDate,
 			OriginalOrderQuantityInBaseUnit:   dataProcessingItemScheduleLine[i].OriginalOrderQuantityInBaseUnit,
 		})
 	}
+
 	return itemScheduleLines
 }
 
@@ -187,13 +192,15 @@ func ConvertToAddress(
 	psdc dpfm_api_processing_formatter.ProcessingFormatterSDC,
 ) []*Address {
 	dataConversionProcessingHeader := psdc.ConversionProcessingHeader
-	dataProcessingAddress := psdc.Address[0]
+	dataProcessingAddress := psdc.Address
 
 	addresses := make([]*Address, 0)
-	addresses = append(addresses, &Address{
-		OrderID:    *dataConversionProcessingHeader.ConvertedOrderID,
-		PostalCode: dataProcessingAddress.PostalCode,
-	})
+	for i := range dataProcessingAddress {
+		addresses = append(addresses, &Address{
+			OrderID:    *dataConversionProcessingHeader.ConvertedOrderID,
+			PostalCode: dataProcessingAddress[i].PostalCode,
+		})
+	}
 
 	return addresses
 }
@@ -214,4 +221,8 @@ func ConvertToPartner(
 	}
 
 	return partners
+}
+
+func getBoolPtr(b bool) *bool {
+	return &b
 }

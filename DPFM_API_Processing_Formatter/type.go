@@ -38,25 +38,31 @@ type ConversionProcessingCommonQueryGets struct {
 }
 
 type Header struct {
-	ConvertingOrderID         string   `json:"ConvertingOrderID"`
-	OrderDate                 *string  `json:"OrderDate"`
-	ConvertingOrderType       *string  `json:"ConvertingOrderType"`
-	ConvertingBuyer           *string  `json:"ConvertingBuyer"`
-	ConvertingSeller          *string  `json:"ConvertingSeller"`
-	CreationDate              *string  `json:"CreationDate"`
-	LastChangeDate            *string  `json:"LastChangeDate"`
-	TotalNetAmount            *float32 `json:"TotalNetAmount"`
-	TotalTaxAmount            *float32 `json:"TotalTaxAmount"`
-	TotalGrossAmount          *float32 `json:"TotalGrossAmount"`
-	TransactionCurrency       *string  `json:"TransactionCurrency"`
-	RequestedDeliveryDate     *string  `json:"RequestedDeliveryDate"`
-	ConvertingPaymentMethod   *string  `json:"ConvertingPaymentMethod"`
-	HeaderText                *string  `json:"HeaderText"`
-	HeaderBlockStatus         *bool    `json:"HeaderBlockStatus"`
-	HeaderBillingBlockStatus  *bool    `json:"HeaderBillingBlockStatus"`
-	HeaderDeliveryBlockStatus *bool    `json:"HeaderDeliveryBlockStatus"`
-	IsCancelled               *bool    `json:"IsCancelled"`
-	IsMarkedForDeletion       *bool    `json:"IsMarkedForDeletion"`
+	ConvertingOrderID                          string   `json:"ConvertingOrderID"`
+	OrderDate                                  *string  `json:"OrderDate"`
+	ConvertingOrderType                        *string  `json:"ConvertingOrderType"`
+	ConvertingBuyer                            *string  `json:"ConvertingBuyer"`
+	ConvertingSeller                           *string  `json:"ConvertingSeller"`
+	ConvertingBillToParty                      *string  `json:"ConvertingBillToParty"`
+	ConvertingBillFromParty                    *string  `json:"ConvertingBillFromParty"`
+	ConvertingPayer                            *string  `json:"ConvertingPayer"`
+	ConvertingPayee                            *string  `json:"ConvertingPayee"`
+	CreationDate                               *string  `json:"CreationDate"`
+	LastChangeDate                             *string  `json:"LastChangeDate"`
+	TotalNetAmount                             *float32 `json:"TotalNetAmount"`
+	TotalTaxAmount                             *float32 `json:"TotalTaxAmount"`
+	TotalGrossAmount                           *float32 `json:"TotalGrossAmount"`
+	TransactionCurrency                        *string  `json:"TransactionCurrency"`
+	RequestedDeliveryDate                      *string  `json:"RequestedDeliveryDate"`
+	RequestedDeliveryTime                      *string  `json:"RequestedDeliveryTime"`
+	ConvertingPaymentMethod                    *string  `json:"ConvertingPaymentMethod"`
+	HeaderText                                 *string  `json:"HeaderText"`
+	HeaderBlockStatus                          *bool    `json:"HeaderBlockStatus"`
+	HeaderBillingBlockStatus                   *bool    `json:"HeaderBillingBlockStatus"`
+	HeaderDeliveryBlockStatus                  *bool    `json:"HeaderDeliveryBlockStatus"`
+	IsCancelled                                *bool    `json:"IsCancelled"`
+	IsMarkedForDeletion                        *bool    `json:"IsMarkedForDeletion"`
+	ConvertingStockConfirmationBusinessPartner *string  `json:"ConvertingStockConfirmationBusinessPartner"`
 }
 
 type ConversionProcessingHeader struct {
@@ -68,55 +74,68 @@ type ConversionProcessingHeader struct {
 	ConvertedBuyer          *int    `json:"ConvertedBuyer"`
 	ConvertingSeller        *string `json:"ConvertingSeller"`
 	ConvertedSeller         *int    `json:"ConvertedSeller"`
+	ConvertingBillToParty   *string `json:"ConvertingBillToParty"`
+	ConvertedBillToParty    *int    `json:"ConvertedBillToParty"`
+	ConvertingBillFromParty *string `json:"ConvertingBillFromParty"`
+	ConvertedBillFromParty  *int    `json:"ConvertedBillFromParty"`
+	ConvertingPayer         *string `json:"ConvertingPayer"`
+	ConvertedPayer          *int    `json:"ConvertedPayer"`
+	ConvertingPayee         *string `json:"ConvertingPayee"`
+	ConvertedPayee          *int    `json:"ConvertedPayee"`
 	ConvertingPaymentMethod *string `json:"ConvertingPaymentMethod"`
 	ConvertedPaymentMethod  *string `json:"ConvertedPaymentMethod"`
 }
 
 type Item struct {
-	ConvertingOrderID                      string   `json:"ConvertingOrderID"`
-	ConvertingOrderItem                    string   `json:"ConvertingOrderItem"`
-	OrderItemText                          *string  `json:"OrderItemText"`
-	Product                                *string  `json:"Product"`
-	ConvertingProductGroup                 *string  `json:"ConvertingProductGroup"`
-	BaseUnit                               *string  `json:"BaseUnit"`
-	RequestedDeliveryDate                  *string  `json:"RequestedDeliveryDate"`
-	ConvertingDeliverToParty               *string  `json:"ConvertingDeliverToParty"`
-	ConvertingDeliverFromParty             *string  `json:"ConvertingDeliverFromParty"`
-	CreationDate                           *string  `json:"CreationDate"`
-	LastChangeDate                         *string  `json:"LastChangeDate"`
-	DeliverFromPlant                       *string  `json:"DeliverFromPlant"`
-	DeliverFromPlantBatch                  *string  `json:"DeliverFromPlantBatch"`
-	DeliveryUnit                           *string  `json:"DeliveryUnit"`
-	StockConfirmationBusinessPartner       *int     `json:"StockConfirmationBusinessPartner"`
-	StockConfirmationPlant                 *string  `json:"StockConfirmationPlant"`
-	StockConfirmationPlantBatch            *string  `json:"StockConfirmationPlantBatch"`
-	OrderQuantityInBaseUnit                *float32 `json:"OrderQuantityInBaseUnit"`
-	OrderQuantityInDeliveryUnit            *float32 `json:"OrderQuantityInDeliveryUnit"`
-	NetAmount                              *float32 `json:"NetAmount"`
-	GrossAmount                            *float32 `json:"GrossAmount"`
-	ConvertingTransactionTaxClassification *string  `json:"ConvertingTransactionTaxClassification"`
-	ConvertingPaymentMethod                *string  `json:"ConvertingPaymentMethod"`
-	ConvertingProject                      *string  `json:"ConvertingProject"`
-	ItemBlockStatus                        *bool    `json:"ItemBlockStatus"`
-	ItemBillingBlockStatus                 *bool    `json:"ItemBillingBlockStatus"`
-	ItemDeliveryBlockStatus                *bool    `json:"ItemDeliveryBlockStatus"`
-	IsCancelled                            *bool    `json:"IsCancelled"`
-	IsMarkedForDeletion                    *bool    `json:"IsMarkedForDeletion"`
+	ConvertingOrderID                          string   `json:"ConvertingOrderID"`
+	ConvertingOrderItem                        string   `json:"ConvertingOrderItem"`
+	OrderItemText                              *string  `json:"OrderItemText"`
+	ConvertingProduct                          *string  `json:"ConvertingProduct"`
+	ConvertingProductGroup                     *string  `json:"ConvertingProductGroup"`
+	BaseUnit                                   *string  `json:"BaseUnit"`
+	RequestedDeliveryDate                      *string  `json:"RequestedDeliveryDate"`
+	RequestedDeliveryTime                      *string  `json:"RequestedDeliveryTime"`
+	ConvertingDeliverToParty                   *string  `json:"ConvertingDeliverToParty"`
+	ConvertingDeliverFromParty                 *string  `json:"ConvertingDeliverFromParty"`
+	CreationDate                               *string  `json:"CreationDate"`
+	LastChangeDate                             *string  `json:"LastChangeDate"`
+	DeliverFromPlant                           *string  `json:"DeliverFromPlant"`
+	DeliverFromPlantBatch                      *string  `json:"DeliverFromPlantBatch"`
+	DeliveryUnit                               *string  `json:"DeliveryUnit"`
+	ConvertingStockConfirmationBusinessPartner *string  `json:"ConvertingStockConfirmationBusinessPartner"`
+	StockConfirmationPlant                     *string  `json:"StockConfirmationPlant"`
+	StockConfirmationPlantBatch                *string  `json:"StockConfirmationPlantBatch"`
+	OrderQuantityInBaseUnit                    *float32 `json:"OrderQuantityInBaseUnit"`
+	OrderQuantityInDeliveryUnit                *float32 `json:"OrderQuantityInDeliveryUnit"`
+	NetAmount                                  *float32 `json:"NetAmount"`
+	GrossAmount                                *float32 `json:"GrossAmount"`
+	ConvertingTransactionTaxClassification     *string  `json:"ConvertingTransactionTaxClassification"`
+	ConvertingPaymentMethod                    *string  `json:"ConvertingPaymentMethod"`
+	ConvertingProject                          *string  `json:"ConvertingProject"`
+	ItemBlockStatus                            *bool    `json:"ItemBlockStatus"`
+	ItemBillingBlockStatus                     *bool    `json:"ItemBillingBlockStatus"`
+	ItemDeliveryBlockStatus                    *bool    `json:"ItemDeliveryBlockStatus"`
+	IsCancelled                                *bool    `json:"IsCancelled"`
+	IsMarkedForDeletion                        *bool    `json:"IsMarkedForDeletion"`
 }
 
 type ConversionProcessingItem struct {
-	ConvertingOrderItem                    *string `json:"ConvertingOrderItem"`
-	ConvertedOrderItem                     *int    `json:"ConvertedOrderItem"`
-	ConvertingProductGroup                 *string `json:"ConvertingProductGroup"`
-	ConvertedProductGroup                  *string `json:"ConvertedProductGroup"`
-	ConvertingDeliverToParty               *string `json:"ConvertingDeliverToParty"`
-	ConvertedDeliverToParty                *int    `json:"ConvertedDeliverToParty"`
-	ConvertingDeliverFromParty             *string `json:"ConvertingDeliverFromParty"`
-	ConvertedDeliverFromParty              *int    `json:"ConvertedDeliverFromParty"`
-	ConvertingTransactionTaxClassification *string `json:"ConvertingTransactionTaxClassification"`
-	ConvertedTransactionTaxClassification  *string `json:"ConvertedTransactionTaxClassification"`
-	ConvertingProject                      *string `json:"ConvertingProject"`
-	ConvertedProject                       *string `json:"ConvertedProject"`
+	ConvertingOrderItem                        *string `json:"ConvertingOrderItem"`
+	ConvertedOrderItem                         *int    `json:"ConvertedOrderItem"`
+	ConvertingProduct                          *string `json:"ConvertingProduct"`
+	ConvertedProduct                           *string `json:"ConvertedProduct"`
+	ConvertingProductGroup                     *string `json:"ConvertingProductGroup"`
+	ConvertedProductGroup                      *string `json:"ConvertedProductGroup"`
+	ConvertingDeliverToParty                   *string `json:"ConvertingDeliverToParty"`
+	ConvertedDeliverToParty                    *int    `json:"ConvertedDeliverToParty"`
+	ConvertingDeliverFromParty                 *string `json:"ConvertingDeliverFromParty"`
+	ConvertedDeliverFromParty                  *int    `json:"ConvertedDeliverFromParty"`
+	ConvertingStockConfirmationBusinessPartner *string `json:"ConvertingStockConfirmationBusinessPartner"`
+	ConvertedStockConfirmationBusinessPartner  *int    `json:"ConvertedStockConfirmationBusinessPartner"`
+	ConvertingTransactionTaxClassification     *string `json:"ConvertingTransactionTaxClassification"`
+	ConvertedTransactionTaxClassification      *string `json:"ConvertedTransactionTaxClassification"`
+	ConvertingProject                          *string `json:"ConvertingProject"`
+	ConvertedProject                           *string `json:"ConvertedProject"`
 }
 
 type ItemPricingElement struct {
@@ -134,13 +153,13 @@ type ItemPricingElement struct {
 }
 
 type ItemScheduleLine struct {
-	ConvertingOrderID                 string   `json:"ConvertingOrderID"`
-	ConvertingOrderItem               string   `json:"ConvertingOrderItem"`
-	Product                           *string  `json:"Product"`
-	StockConfirmationBussinessPartner *int     `json:"StockConfirmationBussinessPartner"`
-	StockConfirmationPlantBatch       *string  `json:"StockConfirmationPlantBatch"`
-	RequestedDeliveryDate             *string  `json:"RequestedDeliveryDate"`
-	OriginalOrderQuantityInBaseUnit   *float32 `json:"OriginalOrderQuantityInBaseUnit"`
+	ConvertingOrderID                           string   `json:"ConvertingOrderID"`
+	ConvertingOrderItem                         string   `json:"ConvertingOrderItem"`
+	Product                                     *string  `json:"Product"`
+	ConvertingStockConfirmationBussinessPartner *string  `json:"ConvertingStockConfirmationBussinessPartner"`
+	StockConfirmationPlantBatch                 *string  `json:"StockConfirmationPlantBatch"`
+	RequestedDeliveryDate                       *string  `json:"RequestedDeliveryDate"`
+	OriginalOrderQuantityInBaseUnit             *float32 `json:"OriginalOrderQuantityInBaseUnit"`
 }
 
 type Address struct {

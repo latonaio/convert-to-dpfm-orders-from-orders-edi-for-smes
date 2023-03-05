@@ -1,6 +1,6 @@
 module convert-to-dpfm-orders-from-orders-edi-for-smes
 
-go 1.19
+go 1.20
 
 require (
 	github.com/latonaio/golang-logging-library-for-data-platform v1.0.2
@@ -10,7 +10,7 @@ require (
 )
 
 require (
-	github.com/go-sql-driver/mysql v1.6.0 // indirect
+	github.com/go-sql-driver/mysql v1.7.0 // indirect
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/streadway/amqp v1.0.0 // indirect
 )
