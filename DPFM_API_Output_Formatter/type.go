@@ -199,8 +199,8 @@ type ItemPricingElement struct {
 	OrderID                    int      `json:"OrderID"`
 	OrderItem                  int      `json:"OrderItem"`
 	SupplyChainRelationshipID  int      `json:"SupplyChainRelationshipID"`
-	Buyer                      int      `json:"Buyer"`
-	Seller                     int      `json:"Seller"`
+	Buyer                      *int     `json:"Buyer"`
+	Seller                     *int     `json:"Seller"`
 	PricingProcedureCounter    int      `json:"PricingProcedureCounter"`
 	ConditionRecord            *int     `json:"ConditionRecord"`
 	ConditionSequentialNumber  *int     `json:"ConditionSequentialNumber"`

@@ -6,7 +6,7 @@ import (
 	"database/sql"
 	"strings"
 
-	"fmt"
+	"golang.org/x/xerrors"
 )
 
 func (p *ProcessingFormatter) ConversionProcessingKey(sdc *dpfm_api_input_reader.SDC, labelConvertFrom, labelConvertTo string, codeConvertFrom any) *ConversionProcessingKey {
@@ -222,7 +222,7 @@ func (p *ProcessingFormatter) ConvertToCodeConversionQueryGets(rows *sql.Rows, r
 		})
 	}
 	if i == 0 {
-		return nil, fmt.Errorf("'data_platform_code_conversion_code_conversion_data'テーブルに対象のレコードが存在しません。")
+		return nil, xerrors.New("'data_platform_code_conversion_code_conversion_data'テーブルに対象のレコードが存在しません。")
 	}
 
 	return res, nil

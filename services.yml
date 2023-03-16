@@ -9,12 +9,12 @@ spec:
   selector:
     matchLabels:
       run: convert-to-dpfm-orders-from-orders-edi-for-smes
-      app: FUNCTION_CONVERT_TO_DPFM_ORDERS_FROM_SAP_SALES_ORDER
+      app: CONVERT_TO_DPFM_ORDERS_FROM_ORDERS_EDI_FOR_SMES
   template:
     metadata:
       labels:
         run: convert-to-dpfm-orders-from-orders-edi-for-smes
-        app: FUNCTION_CONVERT_TO_DPFM_ORDERS_FROM_SAP_SALES_ORDER
+        app: CONVERT_TO_DPFM_ORDERS_FROM_ORDERS_EDI_FOR_SMES
     spec:
       hostname: convert-to-dpfm-orders-from-orders-edi-for-smes
       containers:
