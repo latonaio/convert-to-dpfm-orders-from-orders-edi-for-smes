@@ -253,6 +253,7 @@ func (p *ProcessingFormatter) Item(sdc *dpfm_api_input_reader.SDC, psdc *Process
 			StockConfirmationPlantBatch:                data.TradeProductInstanceBatchIdentifier,
 			OrderQuantityInBaseUnit:                    data.SupplyChainTradeDeliveryRequestedQuantity,
 			OrderQuantityInDeliveryUnit:                data.SupplyChainTradeDeliveryPerPackageUnitQuantity,
+			QuantityPerPackage:                         data.SupplyChainTradeDeliveryPerPackageUnitQuantity,
 			NetAmount:                                  data.ItemTradeOrdersSettlementMonetarySummationNetTotalAmount,
 			GrossAmount:                                data.ItemTradeOrdersSettlementMonetarySummationIncludingTaxesNetTotalAmount,
 			ConvertingTransactionTaxClassification:     data.ItemTradeTaxCategoryCode,

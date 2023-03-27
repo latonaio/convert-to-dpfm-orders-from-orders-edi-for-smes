@@ -10,7 +10,7 @@
     "api_type": "updates",
     "DataConcatenation": {
         "OrdersHeader": {
-            "OrderID": 174,
+            "OrderID": 182,
             "OrderDate": null,
             "OrderType": null,
             "SupplyChainRelationshipID": null,
@@ -24,8 +24,8 @@
             "BillFromCountry": null,
             "Payer": null,
             "Payee": null,
-            "CreationDate": "2023-03-11",
-            "LastChangeDate": "2023-03-11",
+            "CreationDate": "2023-03-25",
+            "LastChangeDate": "2023-03-25",
             "ContractType": null,
             "OrderValidityStartDate": null,
             "OrderValidityEndDate": null,
@@ -61,7 +61,7 @@
         },
         "OrdersItem": [
             {
-                "OrderID": 174,
+                "OrderID": 182,
                 "OrderItem": 1,
                 "OrderItemCategory": null,
                 "SupplyChainRelationshipID": null,
@@ -82,9 +82,9 @@
                 "RequestedDeliveryTime": null,
                 "DeliverToParty": null,
                 "DeliverFromParty": null,
-                "CreationDate": "2023-03-11",
+                "CreationDate": "2023-03-25",
                 "CreationTime": null,
-                "LastChangeDate": "2023-03-11",
+                "LastChangeDate": "2023-03-25",
                 "LastChangeTime": null,
                 "DeliverToPlant": null,
                 "DeliverToPlantTimeZone": null,
@@ -120,6 +120,7 @@
                 "ServicesRenderingDate": null,
                 "OrderQuantityInBaseUnit": 1,
                 "OrderQuantityInDeliveryUnit": 1,
+                "QuantityPerPackage": 1,
                 "StockConfirmationPolicy": null,
                 "StockConfirmationStatus": null,
                 "ConfirmedOrderQuantityInBaseUnit": null,
@@ -145,6 +146,9 @@
                 "ProductionPlantBatchValidityStartTime": null,
                 "ProductionPlantBatchValidityEndDate": null,
                 "ProductionPlantBatchValidityEndTime": null,
+                "InspectionPlan": null,
+                "InspectionPlant": null,
+                "InspectionOrder": null,
                 "Incoterms": null,
                 "TransactionTaxClassification": null,
                 "ProductTaxClassificationBillToCountry": null,
@@ -179,7 +183,7 @@
         ],
         "OrdersItemPricingElement": [
             {
-                "OrderID": 174,
+                "OrderID": 182,
                 "OrderItem": 1,
                 "SupplyChainRelationshipID": 0,
                 "Buyer": null,
@@ -201,7 +205,7 @@
         ],
         "OrdersItemScheduleLine": [
             {
-                "OrderID": 174,
+                "OrderID": 182,
                 "OrderItem": 1,
                 "ScheduleLine": 0,
                 "SupplyChainRelationshipID": null,
@@ -232,7 +236,7 @@
         ],
         "OrdersPartner": [
             {
-                "OrderID": 174,
+                "OrderID": 182,
                 "PartnerFunction": "",
                 "BusinessPartner": 0,
                 "BusinessPartnerFullName": null,
@@ -247,7 +251,7 @@
         ],
         "OrdersAddress": [
             {
-                "OrderID": 174,
+                "OrderID": 182,
                 "AddressID": 0,
                 "PostalCode": null,
                 "LocalRegion": null,

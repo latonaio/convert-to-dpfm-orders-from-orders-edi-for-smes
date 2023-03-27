@@ -107,6 +107,7 @@ type Item struct {
 	StockConfirmationPlantBatch                *string  `json:"StockConfirmationPlantBatch"`
 	OrderQuantityInBaseUnit                    *float32 `json:"OrderQuantityInBaseUnit"`
 	OrderQuantityInDeliveryUnit                *float32 `json:"OrderQuantityInDeliveryUnit"`
+	QuantityPerPackage                         *float32 `json:"QuantityPerPackage"`
 	NetAmount                                  *float32 `json:"NetAmount"`
 	GrossAmount                                *float32 `json:"GrossAmount"`
 	ConvertingTransactionTaxClassification     *string  `json:"ConvertingTransactionTaxClassification"`

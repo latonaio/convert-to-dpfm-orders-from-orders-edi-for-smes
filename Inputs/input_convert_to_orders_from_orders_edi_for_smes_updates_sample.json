@@ -134,7 +134,7 @@
         "TradeDeliveryTermsDescriptionText": null,
         "SupplyChainTradeDeliveryRequestedQuantity": 1,
         "SupplyChainTradeDeliveryPerPackageUnitQuantity": 1,
-        "SupplyChainTradeDeliveryPackageQuantity": null,
+        "SupplyChainTradeDeliveryPackageQuantity": 1,
         "SupplyChainTradeDeliveryProductUnitQuantity": null,
         "QuantityUnitCode": null,
         "ItemTradeDeliverToPartyIdentifier": null,
