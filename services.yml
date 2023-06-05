@@ -16,6 +16,7 @@ spec:
         run: convert-to-dpfm-orders-from-orders-edi-for-smes
         app: CONVERT_TO_DPFM_ORDERS_FROM_ORDERS_EDI_FOR_SMES
     spec:
+      nodeName: worker
       hostname: convert-to-dpfm-orders-from-orders-edi-for-smes
       containers:
         - name: convert-to-dpfm-orders-from-orders-edi-for-smes

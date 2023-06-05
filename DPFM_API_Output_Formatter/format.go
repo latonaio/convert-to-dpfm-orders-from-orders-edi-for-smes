@@ -181,6 +181,7 @@ func ConvertToItemScheduleLine(
 			StockConfirmationBussinessPartner: dataConversionProcessingItemMap[v.ConvertingOrderItem].ConvertedStockConfirmationBusinessPartner,
 			StockConfirmationPlantBatch:       dataProcessingItemScheduleLine[i].StockConfirmationPlantBatch,
 			RequestedDeliveryDate:             dataProcessingItemScheduleLine[i].RequestedDeliveryDate,
+			ScheduleLineOrderQuantity:         dataProcessingItemScheduleLine[i].OriginalOrderQuantityInBaseUnit,
 			OriginalOrderQuantityInBaseUnit:   dataProcessingItemScheduleLine[i].OriginalOrderQuantityInBaseUnit,
 		})
 	}
